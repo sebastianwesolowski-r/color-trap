@@ -1,26 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {Switch} from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import GlobalStyle from './styles/global-style';
 
-export default App;
+import AppBaner from './components/app-baner/app-baner.component';
+
+import StartPage from './pages/start-page/start-page.component';
+import BoardPage from './pages/board-page/board-page.component';
+
+import AuthenticatedRoute from './custom-routes/authenticated-route';
+import UnauthenticatedRoute from './custom-routes/unathenticated-route';
+
+import {selectSession} from './redux/game/game-selectors';
+
+const App = ({session}) => (
+  <>
+    <GlobalStyle />
+    <AppBaner />
+    <Switch>
+      <UnauthenticatedRoute
+        exact path="/"
+        component={StartPage}
+        appProps={{session}}
+      />
+      <AuthenticatedRoute
+        exact path="/board"
+        component={BoardPage}
+        appProps={{session}}
+      />
+    </Switch>
+  </>
+);
+
+const mapStateToProps = createStructuredSelector({
+  session: selectSession
+});
+
+export default connect(mapStateToProps)(App);

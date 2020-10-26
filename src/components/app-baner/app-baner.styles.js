@@ -5,6 +5,10 @@ export const BanerContainer = styled.p`
     letter-spacing: 5px;
     margin: 0 auto;
     margin-bottom: 40px;
+    @media (max-width: 800px) {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+    }
 `;
 
 export const FirstLetter = styled.span`

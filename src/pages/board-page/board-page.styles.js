@@ -24,4 +24,8 @@ export const BoardBlocksContainer = styled.div`
     width: 500px;
     height: 500px;
     border: 1px solid ${props => props.theme.dark};
+    @media (max-width: 800px) {
+        width: 95%;
+        height: 400px;
+    }
 `;

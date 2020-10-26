@@ -21,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     align-items: center;
     padding-top: 140px;
+    @media (max-width: 800px) {
+      padding-top: 60px;
+    }
   }
 `;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 
 import GlobalStyle from './styles/global-style';
 
@@ -9,6 +9,7 @@ import AppBaner from './components/app-baner/app-baner.component';
 
 import StartPage from './pages/start-page/start-page.component';
 import BoardPage from './pages/board-page/board-page.component';
+import NotFoundPage from './pages/not-found-page/not-found-page.component';
 
 import AuthenticatedRoute from './custom-routes/authenticated-route';
 import UnauthenticatedRoute from './custom-routes/unathenticated-route';
@@ -30,6 +31,7 @@ const App = ({session}) => (
         component={BoardPage}
         appProps={{session}}
       />
+      <Route component={NotFoundPage} />
     </Switch>
   </>
 );

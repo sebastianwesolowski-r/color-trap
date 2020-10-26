@@ -15,6 +15,11 @@ export const setBoardBlocks = blocks => ({
     payload: blocks
 });
 
+export const showFire = payload => ({
+    type: GameActionTypes.SHOW_FIRE,
+    payload
+});
+
 export const endGame = () => ({
     type: GameActionTypes.END_GAME
 });

@@ -13,7 +13,7 @@ export const BoardScore = styled.p`
     margin: 0;
     margin-bottom: 50px;
     span {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         color: ${props => props.theme.customBlue};
     }
 `;

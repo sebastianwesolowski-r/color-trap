@@ -1,4 +1,4 @@
-import React, {useEffect,} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
@@ -7,12 +7,13 @@ import {BoardPageContainer, BoardScore, BoardBlocksContainer} from './board-page
 import ColorBlock from '../../components/color-block/color-block.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
-import {generateBlocks} from '../../utils/utils';
+import {generateBlocks, checkIfTheGameIsPossible} from '../../utils/utils';
 
 import {setBoardBlocks, endGame} from '../../redux/game/game-actions';
 import {selectScore, selectBoardSettings, selectBoardBlocks} from '../../redux/game/game-selectors';
 
 const BoardPage = ({score, boardSettings, boardBlocks, setBoardBlocks, endGame}) => {
+    const didMountRef = useRef(false);
     const {rows, columns} = boardSettings;
 
     useEffect(() => {
@@ -20,12 +21,26 @@ const BoardPage = ({score, boardSettings, boardBlocks, setBoardBlocks, endGame})
         setBoardBlocks(blocks);
     }, []);
 
+    useEffect(() => {
+        if(didMountRef.current) {
+            const isGamePossible = checkIfTheGameIsPossible(boardBlocks);
+            if(!isGamePossible) {
+                setTimeout(function() {
+                    alert("No possible movement remained. Game Over.");
+                    return endGame();
+                }, 10);
+            }
+        } else {
+            didMountRef.current = true;
+        }
+    }, [boardBlocks]);
+
     return (
         <BoardPageContainer>
             <BoardScore>Your score: <span>{score}</span></BoardScore>
             <BoardBlocksContainer rows={rows} columns={columns}>
                 {
-                    boardBlocks.map(({key, row, column, boxcolor}) => <ColorBlock key={key} row={row} column={column} boxcolor={boxcolor} />)
+                    boardBlocks.map(({key, row, column, boxcolor, hitblock}) => <ColorBlock key={key} row={row} column={column} boxcolor={boxcolor} hitblock={hitblock} />)
                 }
             </BoardBlocksContainer>
             <CustomButton onClick={endGame}>
@@ -33,7 +48,7 @@ const BoardPage = ({score, boardSettings, boardBlocks, setBoardBlocks, endGame})
             </CustomButton>
         </BoardPageContainer>
     );
-}
+};
 
 const mapStateToProps = createStructuredSelector({
     score: selectScore,

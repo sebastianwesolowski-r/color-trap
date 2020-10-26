@@ -1,5 +1,7 @@
 import GameActionTypes from './game-types';
 
+import {showFireOnBlocks} from './game-utils';
+
 const INITIAL_STATE = {
     session: false,
     score: 0,
@@ -28,11 +30,18 @@ const gameReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 boardBlocks: action.payload
             };
+        case GameActionTypes.SHOW_FIRE:
+            return {
+                ...state,
+                boardBlocks: showFireOnBlocks(state.boardBlocks, action.payload)
+            };
         case GameActionTypes.END_GAME:
             return {
                 ...state,
                 session: false,
-                boardSettings: INITIAL_STATE.boardSettings
+                score: 0,
+                boardSettings: INITIAL_STATE.boardSettings,
+                boardBlocks: []
             };
         default: return state;
     }
